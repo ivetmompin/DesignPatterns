@@ -15,7 +15,7 @@ public class Main {
         switch (option){
             case 1 ->{
                 Customer login = new Customer();
-                customer = login.logIn(0,new Customer());
+                customer = login.logIn(0, new Customer());
             }
             case 2 -> {
                 Customer signUp = new Customer();
@@ -24,6 +24,7 @@ public class Main {
         }
         int customerIndex = customer.getCustomers().indexOf(customer);
         utilities.printCustomer(customer,customerIndex);
+        customer = utilities.askAddressConfirmation(customer);
         // ask pattern
         option = utilities.askPattern();
         switch(option){

@@ -2,9 +2,12 @@ package Utilities;
 
 import Objects.Customer;
 import Objects.Drink;
+import Objects.Ingredient;
+import Objects.Pizza;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SharedPrints{
 
@@ -22,6 +25,7 @@ public class SharedPrints{
         System.out.println("\tAge: "+customer.getAge());
         System.out.println("\tEmail: "+customer.getEmail());
         System.out.println("\tTelephone: "+customer.getPhone());
+        System.out.println("\tDelivery Address: "+customer.getDeliveryAddress());
         System.out.println("\tDelegation: "+getDelegationString(customer.getDelegation()));
     }
 
@@ -48,7 +52,71 @@ public class SharedPrints{
         }
         System.out.println(ANSI_BOLD + "Drinks:" + ANSI_RESET);
         for (Drink drink : drinks) {
-            System.out.println(" - " + drink.name());
+            if(drink!=null) {
+                System.out.println(" - " + drink.name());
+            }
         }
+    }
+    public void printFinished() {
+        System.out.println(ANSI_GREEN + "Your order has been finished! ✓" + ANSI_RESET);
+    }
+    public ArrayList<Boolean> initMarking(int sizeIngredients){
+        ArrayList<Boolean> marking = new ArrayList<>(sizeIngredients);
+        for (int i = 0; i < sizeIngredients; i++) {
+            marking.add(false);
+        }
+        return marking;
+    }
+
+    public void printPizza(Pizza pizza){
+        System.out.println("Your pizza: ");
+        System.out.println("\tType: "+getPizzaStringType(pizza));
+        System.out.println("\t---Ingredients---");
+        marking = initMarking(pizza.getIngredients().size());
+        for(int i=0;i<pizza.getIngredients().size();i++) {
+            if(!marking.get(i)) {
+                Ingredient currentIngredient = pizza.getIngredients().get(i);
+                int quantity = countIngredientsOfTheClass(pizza.getIngredients(), currentIngredient, marking);
+                System.out.println("\t\t - " + getIngredient(currentIngredient)+" (x"+quantity+")");
+            }
+        }
+    }
+
+    public int countIngredientsOfTheClass(List<Ingredient> ingredients, Ingredient currentIngredient, ArrayList<Boolean> marking) {
+        int quantity = 0;
+        for(int i=0;i<ingredients.size();i++){
+            if(Objects.equals(ingredients.get(i).getName(),currentIngredient.getName())){
+                marking.set(i,true);
+                quantity++;
+            }
+        }
+        return quantity;
+    }
+
+    public String getIngredient(Ingredient ingredient){
+        return ingredient.getName();
+    }
+
+    public String getPizzaStringType(Pizza pizza){
+        return pizza.getName();
+    }
+
+    public String getPizzaNameByType(int type) {
+        String[] pizzaTypes = {"American", "Bacon Crispy", "Barcelona", "BBQ", "Burger", "Carbonara Deluxe", "Carbonara", "Castellera",
+                "Coast", "Cowboy", "Diablo", "Four Cheeses", "Girona Pizza", "Hawaiian", "Lleida", "Mallorca", "Margherita", "Pepperoni",
+                "Six Cheeses", "Spanish", "Tarragona", "Texas", "Traviata", "Vegetal"};
+        return pizzaTypes[type];
+    }
+
+    public void printCorrectRegister() {
+        System.out.println(ANSI_GREEN+"You have been correctly added to the system"+ANSI_RESET);
+    }
+
+    public void printNoCustomers() {
+        System.out.println(ANSI_GREEN+"There are no customers stored in the system"+ANSI_RESET);
+    }
+
+    public void printUserNotFound() {
+        System.out.println(ANSI_RED+" User not found in database. Try again "+ANSI_RESET);
     }
 }

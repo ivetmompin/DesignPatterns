@@ -2,6 +2,7 @@ package Patterns.FactoryPattern;
 
 import Objects.Crust;
 import Objects.Customer;
+import Objects.Drink;
 import Objects.Pizza;
 import Utilities.Utilities;
 
@@ -23,6 +24,8 @@ public class FactoryMenu {
             types.add(type);
             crusts.add(crust);
             customer.addToOrder(utilities.getPizzaNameByType(type-1),null,"pizza");
+            Drink drink = utilities.askDrink(customer);
+            customer.addToOrder(null,drink,"drink");
             carryOn = utilities.askMultiple();
             if(types.size()==10){
                 utilities.printErrorTooManyTooFew(true,"pizzas ordered");
@@ -32,7 +35,6 @@ public class FactoryMenu {
                 carryOn = true;
             }
             utilities.printOrder(customer);
-            String drink = utilities.askDrink()
         }
 
         for(int i=0;i<types.size();i++) {

@@ -1,6 +1,7 @@
 package Patterns.BuilderPattern;
 
 import Objects.Customer;
+import Objects.Drink;
 import Objects.Pizza;
 import Objects.Crust;
 import Utilities.Utilities;
@@ -23,6 +24,8 @@ public class BuilderMenu {
             types.add(type);
             crusts.add(crust);
             customer.addToOrder(utilities.getPizzaNameByType(type-1),null,"pizza");
+            Drink drink = utilities.askDrink(customer);
+            customer.addToOrder(null,drink,"drink");
             carryOn = utilities.askMultiple();
             if(types.size()==10){
                 utilities.printErrorTooManyTooFew(true,"pizzas ordered");

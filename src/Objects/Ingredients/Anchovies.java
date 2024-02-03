@@ -6,7 +6,7 @@ public class Anchovies implements Ingredient{
         @Override
         public Ingredient add() {
             System.out.println("Adding Anchovies \uD83D\uDC1F");
-            return new Objects.Ingredients.Artichoke();
+            return new Anchovies();
         }
 
     @Override

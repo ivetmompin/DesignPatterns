@@ -39,15 +39,6 @@ public class CoastPizza implements Pizza {
     @Override
     public void prepare() {
         System.out.println("\nPreparing Coast pizza...");
-        Tuna tuna= new Tuna();
-        ingredients.add(tuna.add());
-        Anchovies anchovies= new Anchovies();
-        ingredients.add(anchovies.add());
-        Prawn prawn = new Prawn();
-        ingredients.add(prawn.add());
-        Pineapple pineapple = new Pineapple();
-        ingredients.add(pineapple.add());
-        updateQuantities();
     }
 
     @Override

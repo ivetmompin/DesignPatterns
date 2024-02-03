@@ -14,12 +14,13 @@ public class Customer {
     private Boolean firstTime;
     private Integer delegation;
 
-    private Order order;
+    private final Order order;
 
     public Customer(){order = new Order();}
 
     public Customer logIn(int step, Customer customer) {
         Scanner scanner = new Scanner(System.in);
+        Utilities utilities = new Utilities();
         customer.setItIsFirstTime(false);
         switch(step){
             case 0 ->{
@@ -29,7 +30,7 @@ public class Customer {
                     customer.setName(name);
                     return logIn(step+1,customer);
                 }else{
-                    System.out.println("Error. Try again");
+                    utilities.printUserNotFound();
                     return logIn(step,customer);
                 }
             }
@@ -39,8 +40,12 @@ public class Customer {
                 if(email!=null&&email.contains("@")){
                     customer.setEmail(email);
                     customer=findCustomerInDatabase(customer);
+                    if(customer==null){
+                        utilities.printUserNotFound();
+                        return logIn(step,new Customer());
+                    }
                 }else{
-                    System.out.println("Error. Try again");
+                    utilities.printUserNotFound();
                     return logIn(step,customer);
                 }
             }
@@ -71,7 +76,7 @@ public class Customer {
                     customer.setName(name);
                     return register(step+1,customer);
                 }else{
-                    System.out.println("Error. Try again");
+                    utilities.printErrorInput();
                     return register(step,customer);
                 }
             }
@@ -83,11 +88,11 @@ public class Customer {
                         customer.setAge(Integer.parseInt(age));
                         return register(step + 1, customer);
                     }catch(Exception e){
-                        System.out.println("Error. It has to be integer");
+                        utilities.printErrorInput();
                         return register(step,customer);
                     }
                 }else{
-                    System.out.println("Error. Try again");
+                    utilities.printErrorInput();
                     return register(step,customer);
                 }
             }
@@ -98,7 +103,7 @@ public class Customer {
                     customer.setPhone(phone);
                     return register(step+1,customer);
                 }else{
-                    System.out.println("Error. Try again");
+                    utilities.printErrorInput();
                     return register(step,customer);
                 }
             }
@@ -109,7 +114,7 @@ public class Customer {
                     customer.setEmail(email);
                     return register(step+1,customer);
                 }else{
-                    System.out.println("Error. Try again");
+                    utilities.printErrorInput();
                     return register(step,customer);
                 }
             }
@@ -120,7 +125,7 @@ public class Customer {
                     customer.setDeliveryAddress(deliveryAddress);
                     return register(step+1,customer);
                 }else{
-                    System.out.println("Error. Try again");
+                    utilities.printErrorInput();
                     return register(step,customer);
                 }
             }
@@ -132,7 +137,7 @@ public class Customer {
             case 6->{
                 customer.setItIsFirstTime(true);
                 registerCustomer(customer);
-                System.out.println("You have been correctly added to the system");
+                utilities.printCorrectRegister();
             }
         }
         return customer;
@@ -193,31 +198,37 @@ public class Customer {
     }
 
     public ArrayList<Customer> getCustomers() {
+        Utilities utilities = new Utilities();
         ArrayList<Customer> fileData = new ArrayList<>();
         try {
             File file = new File("Files/customers.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
-            // Declaring a string variable
             String st;
-            // Condition holds true till
-            // there is character in a string
             while ((st = br.readLine()) != null){
                 fileData.add(parseCustomer(st));
             }
         }catch(Exception e){
-            System.out.println(e);
+            utilities.printNoCustomers();
         }
         return fileData;
     }
     public void registerCustomer(Customer customer) {
         try {
-            FileWriter myWriter = new FileWriter("Files/customers.txt");
-            String stringToWrite = customer.getName()+";"+customer.getAge()+";"+customer.getPhone()+";"+customer.getEmail()+";"+customer.getDeliveryAddress()+";"+customer.getItIsFirstTime()+";"+customer.getDelegation();
-            myWriter.write(stringToWrite);
+            // Open the file in append mode by passing true as the second parameter
+            FileWriter myWriter = new FileWriter("Files/customers.txt", true);
+
+            // Construct the string to write
+            String stringToWrite = customer.getName() + ";" + customer.getAge() + ";" + customer.getPhone() + ";" +
+                    customer.getEmail() + ";" + customer.getDeliveryAddress() + ";" + customer.getItIsFirstTime() + ";" +
+                    customer.getDelegation() + "\n";  // Add a newline to separate entries
+
+            // Append the string to the file
+            myWriter.append(stringToWrite);
+
+            // Close the file
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            e.printStackTrace();
         }
     }
 
@@ -245,7 +256,7 @@ public class Customer {
         this.email=email;
     }
 
-    private void setDeliveryAddress(String deliveryAddress){
+    public void setDeliveryAddress(String deliveryAddress){
         this.deliveryAddress=deliveryAddress;
     }
 

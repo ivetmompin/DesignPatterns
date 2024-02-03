@@ -2,6 +2,7 @@ package Patterns.AbstractFactoryPattern;
 
 import Objects.Crust;
 import Objects.Customer;
+import Objects.Drink;
 import Objects.Pizza;
 import Objects.PizzaTypes.*;
 import Patterns.AbstractFactoryPattern.Factories.*;
@@ -24,6 +25,8 @@ public class AbstractMenu {
             types.add(type);
             crusts.add(crust);
             customer.addToOrder(utilities.getPizzaNameByType(type-1),null,"pizza");
+            Drink drink = utilities.askDrink(customer);
+            customer.addToOrder(null,drink,"drink");
             carryOn = utilities.askMultiple();
             if(types.size()==10){
                 utilities.printErrorTooManyTooFew(true,"pizzas ordered");

@@ -1,1 +1,2 @@
-Ivet;22;618269770;ivetmompin@gmail.com;ronda francesc camprodon 1,baixos;true;2
+Ivet;22;618269770;ivetmompin@gmail.com;ronda francesc camprodon 1, baixos, Vic(08500);true;1
+Fran;56;616791616;fsvinyes@intacvic.com;ronda francesc camprodon 1, vic;true;4

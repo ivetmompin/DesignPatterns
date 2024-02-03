@@ -2,6 +2,7 @@ package Patterns.SingletonPattern;
 
 import Objects.Crust;
 import Objects.Customer;
+import Objects.Drink;
 import Objects.Pizza;
 import Utilities.Utilities;
 
@@ -23,6 +24,8 @@ public class SingletonMenu {
             types.add(type);
             crusts.add(crust);
             customer.addToOrder(utilities.getPizzaNameByType(type-1),null,"pizza");
+            Drink drink = utilities.askDrink(customer);
+            customer.addToOrder(null,drink,"drink");
             carryOn = utilities.askMultiple();
             if(types.size()==10){
                 utilities.printErrorTooManyTooFew(true,"pizzas ordered");
@@ -37,7 +40,7 @@ public class SingletonMenu {
             //implementation pattern
             PizzaRestaurant restaurant = PizzaRestaurant.getInstance();
             Pizza pizza = restaurant.orderPizza(types.get(i), crusts.get(i));
-            System.out.println("-----------Builder Pattern-----------");
+            System.out.println("-----------Singleton Pattern-----------");
             utilities.printPizza(pizza);
         }
     }
